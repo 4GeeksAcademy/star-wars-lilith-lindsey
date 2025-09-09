@@ -1,5 +1,12 @@
-.characterContainer{
-    margin: auto;
-    width: 500px;
-    overflow-x: scroll;
+.characterContainer {
+    display: flex;          
+    overflow-x: auto;         
+    padding: 1rem;
+    gap: 1rem;                
+    justify-content: flex-start;  
+    align-items: center;
+    scroll-behavior: smooth;  
+}
+.card{
+    min-width: 200px !important;
 }

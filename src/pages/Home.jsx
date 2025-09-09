@@ -1,68 +1,55 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
-
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export const Home = () => {
+  const { store, dispatch } = useGlobalReducer();
 
-  const {store, dispatch} =useGlobalReducer()
-	
- 	 const getPeople = () => {
-		fetch(store.baseURL + "people")
-		.then(
-			(resp) => {
-				return resp.json()
-			}
-		)
-		.then( 
-			(data) => {
-			dispatch({
-				type: "set-people",
-				payload: data.results
-			}
-			)
-			}
-			)
-		}
-		useEffect(() => {
-			getPeople()
-			},[])
+  const getPeople = () => {
+    fetch(store.baseURL + "people")
+      .then((resp) => resp.json())
+      .then((data) => {
+        dispatch({
+          type: "set-people",
+          payload: data.results,
+        });
+      })
+      .catch((err) => console.error("Error fetching people:", err));
+  };
 
-	
-	return (
-		<div className="text-center mt-5">
-			<h1>Hello</h1>
-			<div className= "characterContainer d-flex">
-			{store.people.length > 0 ? (
-  				store.people.map(
-					(person, i) => (
-    				<div key={i}>
-      					<p>{person.name}</p>
-      					<Link to={"/detail/" + person.uid}>
-        					<button type="button" className="btn btn-primary">
-          						Click for Details
-        					</button>
-							<button 
-								type="button" 
-								clasName="btn btn-primary" 
-								onclick = {()=>{
-									dispatch(
-										{type: "set-favorites", payload: people.name}
-										)
-									}
-								}>
-								Favorites
-							</button>
-      					</Link>
-					
-    			</div>
-					
-  				))
-			) : (
-  		<p>loading...</p>
-		)}
+  useEffect(() => {
+    getPeople();
+  }, []);
 
+  return (
+    <div className="text-center">
+    	<h1>The Galaxy...</h1>
+    	<div className="characterContainer d-flex">
+  			{store.people.map((person, i) => (
+    		<div key={i} className="card">
+      			<p>{person.name}</p>
+      			<Link to={`/detail/${person.uid}`}>
+        			<button type="button" className="btn btn-primary">
+          				Click for Details
+        			</button>
+      			</Link>
+      			<button
+        			type="button"
+        			className="btn btn-warning"
+        			onClick={() =>
+          				dispatch({
+            				type: "toggle-favorite",
+            				payload: person,
+          				})
+        			}>
+        			{store.favorites.some((fav) => fav.uid === person.uid)
+          			? "Remove from Favorites"
+          			: "Add to Favorites"}
+      			</button>
+    		</div>
+  		))}
 		</div>
-		</div>
-	);
-}; 
+    </div>
+  );
+};

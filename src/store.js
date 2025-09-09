@@ -15,13 +15,15 @@ export default function storeReducer(store, action = {}) {
         people: action.payload, 
       };
 
-      case "set-favorites":
-        return {
+    case "toggle-favorite":
+      const exists = store.favorites.some(fav => fav.uid === action.payload.uid);
+      return {
           ...store,
-          favorites: [...store.favorites, action.payload]
-        }
-    
-    default:
-      throw Error('Unknown action.');
+          favorites: exists
+          ? store.favorites.filter(fav => fav.uid !== action.payload.uid)
+          : [...store.favorites, action.payload],
+      };
+      default:
+        throw Error('Unknown action.');
   }    
 }
