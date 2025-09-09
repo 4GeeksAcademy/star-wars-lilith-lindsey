@@ -2,6 +2,8 @@ export const initialStore=()=>{
   return{
     baseURL: "https://www.swapi.tech/api/",
     people: [],
+    planets: [],
+    vehicles: [],
     favorites: [],
   }
 }
@@ -13,6 +15,20 @@ export default function storeReducer(store, action = {}) {
       return {
         ...store,
         people: action.payload, 
+      };
+
+    case 'set-planets':
+    
+      return {
+        ...store,
+        planets: action.payload, 
+      };
+
+        case 'set-vehicles':
+    
+      return {
+        ...store,
+        vehicles: action.payload, 
       };
 
     case "toggle-favorite":

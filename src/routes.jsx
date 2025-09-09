@@ -10,6 +10,8 @@ import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
 import { Detail } from "./pages/Detail.jsx";
+import { PlanetDetail } from "./pages/PlanetDetail.jsx"
+import { VehicleDetail } from "./pages/VehicleDetail.jsx";
 import { Favorites } from "./pages/Favorites.jsx"
 
 export const router = createBrowserRouter(
@@ -28,6 +30,8 @@ export const router = createBrowserRouter(
         <Route path="/single/:theId" element={ <Single />} />  {/* Dynamic route for single items */}
         <Route path="/demo" element={<Demo />} />
         <Route path="/detail/:theID" element={<Detail />} />
+        <Route path="/planetdetail/:theID" element={<PlanetDetail />} />
+        <Route path="/vehicledetail/:theID" element={<VehicleDetail />} />
         <Route path="/favorites/" element={<Favorites />} />
       </Route>
     )
